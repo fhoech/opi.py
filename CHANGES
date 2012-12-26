@@ -1,0 +1,104 @@
+2009-10-04 Revision 110  chg: Use PIL 1.1.7's ImageCms
+                         fix: Gracefully exit when missing profile files
+
+2009-01-20 Revision 107  fix: image procsets
+
+2008-12-12 Revision 105  chg: Removed convertcmykgrayimages, added
+                              convertgrayimages
+
+2008-02-24 Revision 100  chg: compare profiles and only convert if different
+
+2008-02-23 Revision 099  chg: color management support now via ImageCms.
+                              Should increase performance significantly in
+                              most cases.
+
+2008-01-07 Revision 098  add: log window
+
+2008-01-05 Revision 097  fix: empty TIFFASCIITag could cause an exception
+
+2007-10-06 Revision 096  add: reintroduced EPS support (still needs testing)
+                         add: ability to use embedded resolution info in
+                              image files when downsampling
+
+2007-10-06 Revision 095  chg: increased crop accuracy to use fractions of
+                              pixels
+
+2007-10-02 Revision 094  chg: changed color conversion code to use lcms
+                              utilities jpegicc.exe and tifficc.exe
+                              (performance)
+
+2007-09-19 Revision 092  add: memory caching
+
+2007-09-16 Revision 090  chg: renamed convertcmyk and convertk options to
+                              convertcmykimages and convertcmykgrayimages
+                              (old names are still recognized on the
+                              commandline, but usage is deprecated)
+                         chg: caching images can be turned off (usecache=0)
+                         fix: numerous small fixes
+
+2007-09-09 Revision 089  chg: grayscale images are no longer inserted as
+                              DeviceGray, but Separation Black.
+
+2007-08-28 Revision 087  add: downsampling capability.
+
+2007-07-05 Revision 086  chg: cache directory is now a subdirectory of
+                              image's parent directory and cache filenames
+                              are less verbose.
+
+2007-06-20 Revision 084  add: -convertk option to control conversion of CMYK
+                              images which only contain data in the K channel
+                              ("K-only"). If set to 0, pass-through K channel.
+                              If set to 1 (default), convert to
+                              -outgrayprofile if specified (pass-through if
+                              unspecified).
+                         add: -outRGBgrayprofile to allow special handling
+                              of "R=G=B" images (a grayscale or max GCR CMYK
+                              profile could be used for example)
+
+2006-10-19 Revision 080  chg: further speed and compatibility improvements
+                              (namely a workaround for various unicode-related
+                              issues with the help of win32api.GetShortPathName)
+
+2006-10-13 Revision 076  add: -convertcmyk option to control conversion of
+                              CMYK images. If set to 0, pass-through CMYK
+                              images. Default is 1 (convert CMYK images if
+                              -outprofile is specified)
+
+2006-08-07 Revision 061  chg: file and stdio handling
+
+2006-07-31 Revision 055  chg: parser aborts by default when hires image
+                              files not found
+                         fix: trailing spaces in filenames were stripped
+
+2006-07-28 Revision 054  fix: bug with postscript hex escape codes in
+                              filenames
+
+2006-07-24 Revision 051  fix: an exception broke the parser when eps hires
+                              files were not found
+
+2006-07-23 Revision 050  add: eps support for QuarkXPress 6.5 / 7
+                         chg: grayscale colorization code
+                         fix: opi ending comments now recognized correctly
+
+2006-07-19 Revision 043  chg: passthrough performance optimisations
+
+2006-07-18 Revision 040  chg: performance optimisations, optimized linecache
+                              and enabled direct passthrough after early
+                              imagetype support check
+
+2006-07-17 Revision 039  fix: binary data now passed through correctly (line
+                              endings)
+
+2006-07-17 Revision 038  chg: numerous optimisations
+
+2006-07-17 Revision 037  chg: removed -bpc and -proofpbc options (now handled
+                              via intent="b" / proofintent="b")
+
+2006-07-15 Revision 036  chg: numerous optimisations
+
+2006-07-14 Revision 035  fix: hires bitmap images inserted via OPI into
+                              QuarkXPress postscript output would show up
+                              white if the lores image placed in the layout
+                              was not in bitmap mode
+
+2006-02-24 Revision 000  
