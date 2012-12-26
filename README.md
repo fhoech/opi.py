@@ -1,7 +1,7 @@
-opi.py - Python OPI server
+opi.py - OPI server in Python
 
 Requirements
-~~~~~~~~~~~~
+============
 
 Python 2.5, 2.6 or 2.7
 PIL 1.1.7 or later
@@ -9,14 +9,14 @@ Python for Windows extensions
 wxPython
 
 Usage
-~~~~~
+=====
 
 python -u opi.py <options>
 
 Call without options to get help.
 
 Limitations
-~~~~~~~~~~~
+===========
 
 Supports JPEG, PNG, PSD and TIFF images with 8 bits per pixel in CMYK (not
 PSD), grayscale or RGB color mode (TIFF images with alpha channels, images
