@@ -1226,7 +1226,7 @@ class OPIparser:
 				elif self._getimage().mode == "RGB":
 					srcprofile = self.ICCProfiles["working_RGB"]
 
-			if not srcprofile.data:
+			if not srcprofile.fileName:
 				self.msg("...no source profile, skipping color conversion")
 			else:
 				self.msg("Source profile: " + srcprofile.getDescription())
@@ -1295,13 +1295,13 @@ class OPIparser:
 				if not profile:
 					profile = self.ICCProfiles["out"]
 				
-				if not profile.data:
+				if not profile.fileName:
 					self.msg("...no destination profile set, skipping color "
 							 "conversion")
 				else:
 					self.msg("Destination profile: " + profile.getDescription())
-					if proofprofile.data:
-						self.msg("Proofing profile: " + proofprofile.getDescription())
+					if proofprofile.fileName:
+						self.msg("Proofing profile: %s (%s)" % (proofprofile.getDescription(), proofprofile.fileName))
 						if self.profiles_same(srcprofile, proofprofile):
 							if self.profiles_same(profile, proofprofile):
 								self.msg("Source profile is the same as "
@@ -1319,9 +1319,9 @@ class OPIparser:
 						self.msg("Source profile is the same as destination "
 								 "profile, skipping color conversion")
 				
-				if (profile.data and
+				if (profile.fileName and
 					(not self.profiles_same(srcprofile, profile) or
-					 (proofprofile.data and 
+					 (proofprofile.fileName and 
 					  not self.profiles_same(srcprofile, proofprofile)))):
 					
 					flags = self._ImageCms_flags
@@ -1378,7 +1378,7 @@ class OPIparser:
 							f = open(srcprofile.fileName, "wb")
 							f.write(srcprofile.data)
 							f.close()
-						if proofprofile.data:
+						if proofprofile.fileName:
 							if self.profiles_same(profile, proofprofile):
 								proofprofile = None
 						if profile.colorSpace == "GRAY":
@@ -1392,7 +1392,7 @@ class OPIparser:
 							return
 						srcprofile_obj = ImageCms.ImageCmsProfile(srcprofile.fileName)
 						dstprofile_obj = ImageCms.ImageCmsProfile(profile.fileName)
-						if proofprofile and proofprofile.data:
+						if proofprofile and proofprofile.fileName:
 							proofprofile_obj = ImageCms.ImageCmsProfile(proofprofile.fileName)
 							transform = ImageCms.ImageCmsTransform(srcprofile_obj,
 																   dstprofile_obj,
