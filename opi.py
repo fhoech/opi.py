@@ -55,6 +55,7 @@ import wx
 # Custom modules
 from lib.ICCProfile import ICCProfile
 from lib.LogWindow import LogWindow
+from lib.util_str import safe_str, safe_unicode
 
 
 
@@ -723,7 +724,9 @@ class OPIparser:
 				
 				if (path.exists(self._ImageFileName) and
 					path.isfile(self._ImageFileName)):
-					self.msg("Image file found: " + self._ImageFileName)
+					self.msg("Image file found (%s): %s" %
+							 (self._ImageFileName.__class__.__name__,
+							  self._ImageFileName))
 					
 					if (self._invalidchars.search(self._ImageFileName) and
 						sys.platform == 'win32'):
@@ -738,6 +741,16 @@ class OPIparser:
 							if self.abortonfilenotfound:
 								self._abort()
 								return
+						if self._imgASCIIpath == self._ImageFileName:
+							# 8.3 name creation disabled?
+							# Run `fsutil 8dot3name query` and
+							# `fsutil 8dot3name query <driveletter>:` in an
+							# elevated command prompt to find out, enable with
+							# `fsutil.exe behavior set disable8dot3 2`
+							# Note that enabling will not automatically create
+							# 8.3 names for existing files!
+							# (see https://support.microsoft.com/de-de/help/121007/how-to-disable-8.3-file-name-creation-on-ntfs-partitions)
+							self._imgASCIIpath = safe_str(self._imgASCIIpath, 'mbcs')
 					
 					try:
 						# WORKAROUND: imghdr does not support unicode filenames
@@ -1043,6 +1056,7 @@ class OPIparser:
 
 	def _failimage(self, errorstr):
 		self.msg(errorstr)
+		errorstr = safe_str(errorstr)
 		self.msg("Creating placeholder image...")
 		image = Image.new("CMYK", (320, 240), (0, 255, 255, 0))
 		draw = ImageDraw.Draw(image)
@@ -1054,7 +1068,7 @@ class OPIparser:
 			errorstr.append("<>")
 		try:
 			font = ImageFont.truetype('arial.ttf', 12)
-		except IOError:
+		except:
 			font = ImageFont.load_default()
 		x1 = image.size[0] - (image.size[0] / 2) - (font.getsize(errorstr[0])[0] / 2)
 		y1 = image.size[1] - (image.size[1] / 2) - font.getsize(errorstr[0])[1]
@@ -2026,8 +2040,10 @@ class OPIparser:
 						self._abort()
 						return
 			except IOError, v:
-				self._errorstr = ("ERROR - could not read image file: " +
-								  self._ImageFileName)
+				self._errorstr = ("ERROR - could not read image file (%s): %s" %
+								  (self._ImageFileName.__class__.__name__,
+								   self._ImageFileName) + "\n" +
+								  safe_unicode(v))
 		else:
 			self.msg("Image already in memory")
 		
